@@ -144,7 +144,7 @@ infectionExplode(ent)
 			if (pev(ent, PEV_NADE_TYPE) == NADE_INFECT)
 			{
 				ratio = 1.5;
-				maxAdd = 1000.0;
+				maxAdd = 1250.0;
 			}
 			else
 			{

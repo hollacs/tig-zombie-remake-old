@@ -49,6 +49,11 @@ showHudInfo(id)
 			color = {255, 0, 0};
 			formatex(class, charsmax(class), "Morpheus");
 		}
+		else if (getBoomer(player))
+		{
+			color = {200, 75, 0};
+			formatex(class, charsmax(class), "Boomer");
+		}
 		else
 		{
 			color = {200, 100, 0};

@@ -25,6 +25,7 @@
 #define Command::%0(%1) 	Command@%0(%1)
 #define Api::%0(%1) 		Api@%0(%1)
 #define GunLv::%0(%1) 		GunLv@%0(%1)
+#define Boomer::%0(%1) 		Boomer@%0(%1)
 
 #define HOOK_RESULT _hookResult
 #define HOOK_RETURN(%0) return ((_hookTemp = %0) > _hookResult) ? (_hookResult=_hookTemp) : _hookResult

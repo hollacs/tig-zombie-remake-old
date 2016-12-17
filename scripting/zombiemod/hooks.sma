@@ -32,6 +32,7 @@ public OnPluginPrecache()
 	Nemesis::Precache();
 	Combiner::Precache();
 	Morpheus::Precache();
+	Boomer::Precache();
 	FireBomb::Precache();
 	IceBomb::Precache();
 	InfectBomb::Precache();
@@ -94,6 +95,7 @@ public OnPluginInit()
 	Nemesis::Init();
 	Combiner::Init();
 	Morpheus::Init();
+	Boomer::Init();
 	Fatal::Init();
 	GameRules::Init();
 	Poison::Init();
@@ -143,6 +145,7 @@ public OnEventNewRound()
 	Nemesis::NewRound();
 	Combiner::NewRound();
 	Morpheus::NewRound();
+	Boomer::NewRound();
 	Nvg::NewRound();
 	RandItem::NewRound();
 }
@@ -216,6 +219,7 @@ public OnPlayerSpawn_P(id)
 {
 	Nvg::PlayerSpawn_P(id);
 	GameRules::PlayerSpawn_P(id);
+	Boomer::Spawn_P(id);
 }
 
 public OnPlayerResetMaxSpeed_P(id)
@@ -227,6 +231,7 @@ public OnPlayerResetMaxSpeed_P(id)
 	Nemesis::ResetMaxSpeed(id);
 	Combiner::ResetMaxSpeed(id);
 	Morpheus::ResetMaxSpeed(id);
+	Boomer::ResetMaxSpeed(id);
 	IceBomb::ResetMaxSpeed(id);
 	Armor::ResetMaxSpeed(id);
 	Api::ResetMaxSpeed(id);
@@ -235,6 +240,7 @@ public OnPlayerResetMaxSpeed_P(id)
 public OnPlayerKilled(id, killer, shouldGib)
 {
 	Human::Killed(id);
+	Boomer::Killed(id);
 	GameRules::Killed(id);
 	FireBomb::Killed(id);
 	IceBomb::Killed(id);
@@ -255,6 +261,7 @@ public OnPlayerKilled_P(id, killer, shouldGib)
 	Nemesis::Killed_P(id);
 	Combiner::Killed_P(id);
 	Morpheus::Killed_P(id);
+	Boomer::Killed_P(id);
 	Nvg::Killed_P(id);
 	RandItem::Killed_P(id);
 }
@@ -307,6 +314,7 @@ public OnClientDisconnect(id)
 	Nemesis::Disconnect(id);
 	Combiner::Disconnect(id);
 	Morpheus::Disconnect(id);
+	Boomer::Disconnect(id);
 	GameRules::Disconnect(id);
 	FireBomb::Disconnect(id);
 	IceBomb::Disconnect(id);
@@ -330,6 +338,7 @@ public OnPlayerHumanize(id)
 	Nemesis::Humanize(id);
 	Combiner::Humanize(id);
 	Morpheus::Humanize(id);
+	Boomer::Humanize(id);
 	Nvg::Humanize(id);
 	FireBomb::Humanize(id);
 	IceBomb::Humanize(id);
@@ -351,6 +360,7 @@ public OnPlayerInfect(id, attacker)
 	Nemesis::Infect(id);
 	Combiner::Infect(id);
 	Morpheus::Infect(id);
+	Boomer::Infect(id);
 	Poison::Infect(id);
 	GameRules::Infect(id);
 	Armor::Infect(id);
@@ -371,6 +381,7 @@ public OnZombieKnifeDeploy(id)
 	Nemesis::KnifeDeploy(id);
 	Combiner::KnifeDeploy(id);
 	Morpheus::KnifeDeploy(id);
+	Boomer::KnifeDeploy(id);
 	Api::ZombieKnifeDeploy(id);
 }
 
@@ -378,6 +389,9 @@ public OnPainShock(id, inflictor, attacker, Float:damage, damageBits)
 {
 	Gmonster::PainShock(id);
 	Nemesis::PainShock(id);
+	Combiner::PainShock(id)
+	Morpheus::PainShock(id);
+	Boomer::PainShock(id);
 	Armor::PainShock(id, inflictor, attacker, damage, damageBits);
 	Api::PainShock(id, inflictor, attacker, damage, damageBits);
 }
@@ -386,6 +400,9 @@ public OnKnockBack(id, attacker, Float:damage, Float:direction[3], tr, damageBit
 {
 	Gmonster::KnockBack(id);
 	Nemesis::KnockBack(id);
+	Combiner::KnockBack(id);
+	Morpheus::KnockBack(id);
+	Boomer::KnockBack(id);
 	Armor::KnockBack(id);
 	Api::KnockBack(id, attacker, damage, direction, tr, damageBits);
 }

@@ -159,7 +159,7 @@ public OnGameRulesThink_P()
 
 public OrpheuHookReturn:OnCheckWinConditions()
 {
-	if (getGameRules("m_bFirstConnected") && getGameRules("m_iRoundWinStatus") != 0)
+	if (getGameRules("m_bFirstConnected") && getGameRules("m_iRoundWinStatus"))
 		return OrpheuSupercede;
 	
 	countTeamPlayers();
@@ -185,6 +185,9 @@ public OrpheuHookReturn:OnCheckWinConditions()
 	
 		return OrpheuSupercede;
 	}
+	
+	if (getGameRules("m_iRoundWinStatus"))
+		return OrpheuSupercede;
 	
 	if (g_isGameStarted)
 	{
@@ -851,10 +854,11 @@ randomRespawnAs(id)
 		TYPE_GMONSTER = 1,
 		TYPE_NEMESIS,
 		TYPE_COMBINER,
-		TYPE_MORPHEUS
+		TYPE_MORPHEUS,
+		TYPE_BOOMER
 	};
 	
-	new types[4] = {1, 2, 3, 4}, numTypes = 4;
+	new types[5] = {1, 2, 3, 4, 5}, numTypes = 5;
 	
 	while (numTypes)
 	{
@@ -951,6 +955,22 @@ randomRespawnAs(id)
 				
 				set_hudmessage(255, 0, 0, 0.025, 0.3, 1, 0.0, 3.0, 1.0, 1.0, 1);
 				show_hudmessage(0, "Morpheus Appeared!");
+				
+				break;
+			}
+			case TYPE_BOOMER:
+			{
+				if (countBoomer())
+					continue;
+				
+				if (random_num(0, 17) != 0)
+					continue;
+				
+				setBoomer(id, true);
+				playSound(0, SOUND_DETECTED);
+				
+				set_hudmessage(200, 200, 0, 0.025, 0.3, 1, 0.0, 3.0, 1.0, 1.0, 1);
+				show_hudmessage(0, "Boomer Appeared!");
 				
 				break;
 			}

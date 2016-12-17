@@ -29,6 +29,7 @@
 #include "zombiemod/nemesis.sma"
 #include "zombiemod/combiner.sma"
 #include "zombiemod/morpheus.sma"
+#include "zombiemod/boomer.sma"
 
 #include "zombiemod/gamerules.sma"
 

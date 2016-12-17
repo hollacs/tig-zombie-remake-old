@@ -9,6 +9,12 @@ stock precachePlayerModel(const model[])
 		precache_model(buffer);
 }
 
+stock forcePlayerDuck(id)
+{
+    set_pev(id, pev_flags, pev(id, pev_flags) | FL_DUCKING)
+    entity_set_size(id, Float:{-16.0, -16.0, -18.0}, Float:{16.0, 16.0, 18.0});
+}
+
 stock bool:isEntBreakable(ent)
 {
 	new className[32];
