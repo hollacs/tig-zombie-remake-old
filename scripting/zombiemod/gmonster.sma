@@ -168,6 +168,9 @@ public Gmonster::Infect(id)
 	{
 		new g = g_gmonster[id]-1;
 		
+		resetZombie(id);
+		g_gmonster[id] = g + 1;
+		
 		set_user_health(id, GMONSTER_HP[g] + (countHumans() * GMONSTER_HP2[g]));
 		set_pev(id, pev_max_health, float(get_user_health(id)));
 		

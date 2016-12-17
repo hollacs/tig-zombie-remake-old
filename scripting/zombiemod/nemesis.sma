@@ -242,6 +242,9 @@ public Nemesis::Infect(id)
 	{
 		new n = g_nemesis[id]-1;
 		
+		resetZombie(id);
+		g_nemesis[id] = n + 1;
+
 		set_user_health(id, NEMESIS_HP[n] + (countHumans() * NEMESIS_HP2[n]));
 		set_pev(id, pev_max_health, float(get_user_health(id)));
 		

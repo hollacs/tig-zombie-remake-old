@@ -64,6 +64,9 @@ public Morpheus::Infect(id)
 {
 	if (g_morpheus[id])
 	{
+		resetZombie(id);
+		g_morpheus[id] = true;
+
 		set_user_health(id, MORPHEUS_HP + (countHumans() * MORPHEUS_HP2));
 		set_pev(id, pev_max_health, float(get_user_health(id)));
 		

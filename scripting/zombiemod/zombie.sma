@@ -255,6 +255,14 @@ infectPlayer(id, attacker=0)
 	OnPlayerInfect(id, attacker);
 }
 
+stock resetZombie(id)
+{
+	setCombiner(id, false);
+	setMorpheus(id, false);
+	setGmonster(id, 0);
+	setNemesis(id, 0);
+}
+
 stock countZombies()
 {
 	new count = 0;

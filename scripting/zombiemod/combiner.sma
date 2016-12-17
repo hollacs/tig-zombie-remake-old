@@ -75,6 +75,9 @@ public Combiner::Infect(id)
 {
 	if (g_combiner[id])
 	{
+		resetZombie(id);
+		g_combiner[id] = true;
+		
 		set_user_health(id, COMBINER_HP + (countHumans() * COMBINER_HP2));
 		set_pev(id, pev_max_health, float(get_user_health(id)));
 		
