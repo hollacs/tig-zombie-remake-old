@@ -85,6 +85,20 @@ public Supporter::SetModel(ent, const model[])
 	}
 }
 
+public Supporter::KnifeKnockBack(id, attacker, &Float:power)
+{
+	if (!g_supporter[attacker])
+		return;
+	
+	if (!isKnifeStabbing(attacker))
+		return;
+	
+	if (getNemesis(id) || getGmonster(id))
+		return;
+	
+	power = 650.0;
+}
+
 stock getSupporter(id)
 {
 	return g_supporter[id];

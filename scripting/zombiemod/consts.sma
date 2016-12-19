@@ -137,6 +137,21 @@ enum
 	GAMEMODE_FINAL
 };
 
+enum
+{
+	ATTRIBH_HP = 0,
+	ATTRIBH_AP,
+	ATTRIBH_STR,
+	ATTRIBH_INT,
+	ATTRIBH_DEX,
+	ATTRIBH_LUK,
+	ATTRIBH_FAI,
+	ATTRIBH_MAX
+}
+
+const NADE_ICE = 8235;
+const NADE_ICE_SUPER = 6023;
+
 new const SOUND_MUTATION[] = "zombiemod/mutation.wav";
 new const SOUND_NVG_ON[]  = "items/nvg_on.wav";
 new const SOUND_NVG_OFF[] = "items/nvg_off.wav";

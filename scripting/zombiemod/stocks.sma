@@ -9,6 +9,20 @@ stock precachePlayerModel(const model[])
 		precache_model(buffer);
 }
 
+stock precacheMoreSound(const array[][], size)
+{
+	for (new i = 0; i < size; i++)
+	{
+		precache_sound(array[i]);
+	}
+}
+
+stock emitRandomSound(player, channel, const array[][], size, Float:volume, Float:attn, flags, pitch)
+{
+	new rand = random(size);
+	emit_sound(player, channel, array[rand], volume, attn, flags, pitch);
+}
+
 stock forcePlayerDuck(id)
 {
     set_pev(id, pev_flags, pev(id, pev_flags) | FL_DUCKING)

@@ -59,8 +59,6 @@ showHudInfo(id)
 			color = {200, 100, 0};
 			formatex(class, charsmax(class), "Zombie - %a", ArrayGetStringHandle(g_zombieName, getZombieType(player)));
 		}
-		
-		formatex(additional, charsmax(additional), "zLv: %d | EXP: %d/%d", getZombieLevel(player), getZombieExp(player), getRequiredExp(player));
 	}
 	else
 	{
@@ -91,12 +89,19 @@ showHudInfo(id)
 	
 	if (id != player)
 	{
-		set_hudmessage(color[0], color[1], color[2], 0.6, 0.8, 0, 0.0, 1.1, 0.0, 0.0, 4);
-		show_hudmessage(id, "HP: %d | Armor: %d | Class: %s | RS: %d | $%d^n%s", get_user_health(player), get_user_armor(player), class, getResource(player), getMoney(player), additional);
+		set_hudmessage(color[0], color[1], color[2], 0.6, 0.7, 0, 0.0, 1.1, 0.0, 0.0, 4);
+		show_hudmessage(id, "HP: %d | Armor: %d | Class: %s^nRS: %d | $%d | Level: %d | EXP: %d/%d^n%s", 
+			get_user_health(player), get_user_armor(player), class, 
+			getResource(player), getMoney(player), getPlayerLevel(player), getPlayerExp(player), getRequiredExp(player), 
+			additional
+		);
 	}
 	else
 	{
-		set_hudmessage(color[0], color[1], color[2], 0.01, 0.9, 0, 0.0, 1.1, 0.0, 0.0, 4);
-		show_hudmessage(id, "HP: %d | Armor: %d | Class: %s | RS: %d^n%s", get_user_health(id), get_user_armor(id), class, getResource(id), additional);
+		set_hudmessage(color[0], color[1], color[2], 0.6, 0.85, 0, 0.0, 1.1, 0.0, 0.0, 4);
+		show_hudmessage(id, "HP: %d | Armor: %d | Class: %s | RS: %d^nLevel: %d | EXP: %d/%d%s%s", 
+			get_user_health(id), get_user_armor(id), class, getResource(id),
+			getPlayerLevel(id), getPlayerExp(id), getRequiredExp(id), additional[0] ? " | " : "", additional
+		);
 	}
 }

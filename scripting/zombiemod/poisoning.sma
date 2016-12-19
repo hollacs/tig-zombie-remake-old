@@ -18,8 +18,16 @@ public Poison::TakeDamage_P(id, inflictor, attacker, Float:damage, damageBits)
 	
 	if (isZombie(attacker) && inflictor == attacker && get_user_weapon(attacker) == CSW_KNIFE && (damageBits & DMG_BULLET))
 	{
-		if (getNemesis(attacker) || getCombiner(attacker) || (!getGmonster(attacker) && get_user_armor(id) <= 0))
-			addPoisoning(id, attacker, 1);
+		if (getGmonster(attacker))
+			return;
+		
+		if ((!getNemesis(attacker) && !getCombiner(attacker)) && get_user_armor(id) > 0)
+			return;
+		
+		if (OnCanPoison(id, attacker) == PLUGIN_HANDLED)
+			return;
+		
+		addPoisoning(id, attacker, 1);
 	}
 }
 

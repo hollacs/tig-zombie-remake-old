@@ -16,14 +16,6 @@ public Combiner::Precache()
 
 public Combiner::Init()
 {
-	register_clcmd("combiner", "CmdCombiner");
-}
-
-public CmdCombiner(id)
-{
-	g_combiner[id] = true;
-	infectPlayer(id);
-	return PLUGIN_HANDLED;
 }
 
 public Combiner::NewRound()

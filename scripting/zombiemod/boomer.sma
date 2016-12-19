@@ -1,20 +1,22 @@
 const BOOMER_HP = 500;
 const BOOMER_HP2 = 150;
 const Float:BOOMER_GRAVITY = 1.0;
-const Float:BOOMER_SPEED = 0.85;
+const Float:BOOMER_SPEED = 0.875;
 const Float:BOOMER_PAINSHOCK = 1.35;
 const Float:BOOMER_KNOCKBACK = 0.25;
 new const BOOMER_MODEL[] = "boomer";
 
 const Float:BOOMER_EXPLODE_RADIUS = 260.0;
+const Float:BOOMER_EXPLODE_DAMAGE_MAX = 300.0;
+const Float:BOOMER_EXPLODE_DAMAGE_MIN = 100.0;
 
-new const SOUND_BOOMER_EXPLODE[] = "zombiemod/boom.wav";
+new const SOUND_BOOMER_EXPLODE[][] = {"zombiemod/boom1.wav", "zombiemod/boom2.wav", "zombiemod/boom3.wav"};
 
 new g_boomer[33];
 
 public Boomer::Precache()
 {
-	precache_sound(SOUND_BOOMER_EXPLODE);
+	precacheMoreSound(SOUND_BOOMER_EXPLODE, sizeof SOUND_BOOMER_EXPLODE);
 	
 	precache_model("models/zombiemod/v_knife_boomer.mdl");
 	precachePlayerModel("boomer");
@@ -22,15 +24,7 @@ public Boomer::Precache()
 
 public Boomer::Init()
 {
-	register_clcmd("boomer", "CmdBoomer");
 	register_clcmd("drop", "CmdBoomerDrop");
-}
-
-public CmdBoomer(id)
-{
-	g_boomer[id] = true;
-	infectPlayer(id);
-	return PLUGIN_HANDLED;
 }
 
 public CmdBoomerDrop(id)
@@ -131,7 +125,7 @@ stock boomerExplode(id)
 	
 	boomerBlastEffect(origin);
 	
-	emit_sound(id, CHAN_WEAPON, SOUND_BOOMER_EXPLODE, 1.0, ATTN_NORM, 0, PITCH_NORM);
+	emitRandomSound(id, CHAN_WEAPON, SOUND_BOOMER_EXPLODE, sizeof SOUND_BOOMER_EXPLODE, 1.0, ATTN_NORM, 0, PITCH_NORM);
 
 	new player = FM_NULLENT;
 	while ((player = find_ent_in_sphere(player, origin, BOOMER_EXPLODE_RADIUS)) != 0)
@@ -141,7 +135,7 @@ stock boomerExplode(id)
 		
 		if (!isZombie(player))
 		{
-			new Float:damage = 200.0;
+			new Float:damage =  floatmax((1.0 - entity_range(id, player) / BOOMER_EXPLODE_RADIUS) * BOOMER_EXPLODE_DAMAGE_MAX, BOOMER_EXPLODE_DAMAGE_MIN)
 			
 			new Float:armor;
 			pev(player, pev_armorvalue, armor);

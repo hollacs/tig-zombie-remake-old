@@ -387,7 +387,7 @@ public GameRules::RoundEnd()
 		}
 	}
 	
-	new addMoney;
+	new addMoney, exp;
 	
 	if (g_winStatus == WinStatus_CT)
 	{
@@ -395,9 +395,15 @@ public GameRules::RoundEnd()
 		{
 			// Boss died
 			if (!countGmonsters() || !countNemesis())
-				addMoney = 800;
+			{
+				addMoney = 1000;
+				exp = 75;
+			}
 			else
-				addMoney = 700;
+			{
+				addMoney = 800;
+				exp = 60;
+			}
 		}
 		else
 		{
@@ -406,33 +412,49 @@ public GameRules::RoundEnd()
 			{
 				// Boss died
 				if (!countGmonsters() && !countNemesis())
+				{
 					addMoney = 700;
+					exp = 50;
+				}
 				else
+				{
 					addMoney = 600;
+					exp = 40;
+				}
 			}
 			else
+			{
 				addMoney = 500;
+				exp = 30;
+			}
 		}
 		
 		for (new i = 1; i <= g_maxClients; i++)
 		{
 			if (is_user_alive(i) && !isZombie(i))
+			{
 				addAccount(i, addMoney);
+				addExp(i, exp);
+			}
 		}
 		
-		client_print(0, print_chat, "* 所有生還者獲得 $%d.", addMoney);
+		client_print(0, print_chat, "* 所有生還者獲得 $%d 及 %dEXP.", addMoney, exp);
 	}
 	else if (g_winStatus == WinStatus_Terrorist)
 	{
 		addMoney = 500;
+		exp = 35;
 		
 		for (new i = 1; i <= g_maxClients; i++)
 		{
 			if (is_user_alive(i) && isZombie(i))
+			{
 				addAccount(i, addMoney);
+				addExp(i, exp)
+			}
 		}
 		
-		client_print(0, print_chat, "* 所有喪屍獲得 $%d.", addMoney);
+		client_print(0, print_chat, "* 所有喪屍獲得 $%d 及 %dEXP.", addMoney, exp);
 	}
 	
 	stopMusic(0);
@@ -804,7 +826,7 @@ public MakeGameStart()
 	}
 	
 	new numSuppoters = 0;
-	new maxSuppoters = floatround(numPlayers * 0.2);
+	new maxSuppoters = floatround(numPlayers * 0.25);
 			
 	while (numSuppoters < maxSuppoters)
 	{

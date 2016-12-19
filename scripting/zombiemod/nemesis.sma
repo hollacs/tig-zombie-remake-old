@@ -9,7 +9,7 @@ new const Float:NEMESIS_PAINSHOCK[2] = {1.4, 1.2};
 new const Float:NEMESIS_KNOCKBACK[2] = {0.4, 0.5};
 
 const Float:NEMESIS_ROCKET_RADIUS = 240.0;
-const Float:NEMESIS_ROCKET_DAMAGE = 295.0;
+const Float:NEMESIS_ROCKET_DAMAGE = 350.0;
 
 new g_nemesis[33];
 

@@ -13,7 +13,7 @@ public Fatal::TakeDamage(id, inflictor, attacker, Float:damage, damageBits)
 		if (!isKnifeStabbing(attacker))
 			return;
 		
-		if (getLeader(id) == LEADER_MALE)
+		if (OnCanFatalKill(id, attacker) == PLUGIN_HANDLED)
 			return;
 		
 		if (getGmonster(attacker) == GMONSTER_1ST)

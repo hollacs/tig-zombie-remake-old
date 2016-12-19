@@ -259,6 +259,7 @@ stock resetZombie(id)
 {
 	setCombiner(id, false);
 	setMorpheus(id, false);
+	setBoomer(id, false);
 	setGmonster(id, 0);
 	setNemesis(id, 0);
 }
@@ -273,6 +274,11 @@ stock countZombies()
 	}
 	
 	return count;
+}
+
+stock getGodMode(id)
+{
+	return g_godMode[id];
 }
 
 stock setGodMode(id, Float:duration, bool:rendering)

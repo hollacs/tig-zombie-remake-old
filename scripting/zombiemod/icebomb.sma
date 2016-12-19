@@ -1,12 +1,9 @@
-const NADE_ICE = 8235;
-const NADE_ICE2 = 6023;
-
 const Float:ICE_EXPLOSION_RADIUS = 240.0;
 
-const Float:ICE_DURATION_MAX = 5.0;
+const Float:ICE_DURATION_MAX = 4.0;
 const Float:ICE_DURATION_MIN = 2.0;
 
-const Float:ICE2_DURATION_MAX = 7.5;
+const Float:ICE2_DURATION_MAX = 5.0;
 const Float:ICE2_DURATION_MIN = 3.0;
 
 new const SOUND_ICE_EXPLODE[] = "zombiemod/frostnova.wav";
@@ -56,7 +53,7 @@ public IceBomb::SetModel(ent, const model[])
 			
 			set_rendering(ent, kRenderFxGlowShell, 50, 100, 200, kRenderNormal, 16);
 			
-			set_pev(ent, PEV_NADE_TYPE, NADE_ICE2);
+			set_pev(ent, PEV_NADE_TYPE, NADE_ICE_SUPER);
 		}
 		else
 		{
@@ -92,7 +89,7 @@ public IceBomb::GrenadeThink(ent)
 	if (gameTime < dmgTime)
 		HOOK_RETURN(HAM_IGNORED);
 		
-	if (pev(ent, PEV_NADE_TYPE) == NADE_ICE || pev(ent, PEV_NADE_TYPE) == NADE_ICE2)
+	if (pev(ent, PEV_NADE_TYPE) == NADE_ICE || pev(ent, PEV_NADE_TYPE) == NADE_ICE_SUPER)
 	{
 		iceExplode(ent);
 		HOOK_RETURN(HAM_SUPERCEDE);
@@ -161,21 +158,28 @@ iceExplode(ent)
 		
 		new Float:radiusRatio = 1.0 - (entity_range(ent, player) / ICE_EXPLOSION_RADIUS);
 		
-		new Float:duration;
+		new Float:original, Float:duration;
 		if (pev(ent, PEV_NADE_TYPE) == NADE_ICE)
 		{
+			original = floatmax(ICE_DURATION_MAX * radiusRatio, ICE_DURATION_MIN);
+			
 			if (getGmonster(player) > GMONSTER_1ST || getNemesis(player))
 				duration = 0.0;
 			else
-				duration = floatmax(ICE_DURATION_MAX * radiusRatio, ICE_DURATION_MIN);
+				duration = original;
 		}
 		else // Super ICE
 		{
-			duration = floatmax(ICE2_DURATION_MAX * radiusRatio, ICE2_DURATION_MIN);
-			
-			if (getGmonster(player) > GMONSTER_1ST || getNemesis(player))
-				duration *= 0.5;	
+			original = floatmax(ICE2_DURATION_MAX * radiusRatio, ICE2_DURATION_MIN);
+			duration = original;
+
+			if (getGodMode(player))
+				duration *= 0.0;	
 		}
+
+		OnIceExplode(ent, player, original, duration);
+		
+		client_print(0, print_chat, "[debug] freeze duration: original=%f, new=%f", original, duration);
 		
 		if (g_isFrozen[player] && g_frozenDuration[player] > duration)
 			duration = g_frozenDuration[player];
@@ -231,8 +235,8 @@ iceBlastEffects(ent)
 		write_byte(25); // width
 		write_byte(0); // noise
 		write_byte(0); // red
-		write_byte(100); // green
-		write_byte(200); // blue
+		write_byte(75); // green
+		write_byte(150); // blue
 		write_byte(200); // brightness
 		write_byte(0); // speed
 		message_end();
@@ -244,8 +248,8 @@ iceBlastEffects(ent)
 		write_coord_f(origin[2]); // position.z
 		write_byte(30); // radius in 10's
 		write_byte(0); // red
-		write_byte(100); // green
-		write_byte(200); // blue
+		write_byte(75); // green
+		write_byte(150); // blue
 		write_byte(6); // life in 0.1's
 		write_byte(40) // decay rate in 0.1's
 		message_end();
@@ -266,8 +270,8 @@ iceBlastEffects(ent)
 		write_byte(5); // life
 		write_byte(25); // width
 		write_byte(0); // noise
-		write_byte(50); // red
-		write_byte(100); // green
+		write_byte(100); // red
+		write_byte(150); // green
 		write_byte(200); // blue
 		write_byte(200); // brightness
 		write_byte(0); // speed
@@ -287,9 +291,9 @@ iceBlastEffects(ent)
 		write_byte(5); // life
 		write_byte(25); // width
 		write_byte(0); // noise
-		write_byte(50); // red
-		write_byte(100); // green
-		write_byte(200); // blue
+		write_byte(100); // red
+		write_byte(150); // green
+		write_byte(250); // blue
 		write_byte(200); // brightness
 		write_byte(0); // speed
 		message_end();
@@ -300,8 +304,8 @@ iceBlastEffects(ent)
 		write_coord_f(origin[1]); // position.y
 		write_coord_f(origin[2]); // position.z
 		write_byte(30); // radius in 10's
-		write_byte(50); // red
-		write_byte(100); // green
+		write_byte(100); // red
+		write_byte(150); // green
 		write_byte(200); // blue
 		write_byte(6); // life in 0.1's
 		write_byte(40) // decay rate in 0.1's

@@ -26,6 +26,7 @@ public ShowMainMenu(id)
 	menu_additem(menu, "What's new");
 	menu_additem(menu, "Buy \dbuy2");
 	menu_additem(menu, "Choose Zombie Type \dchoosezombie");
+	menu_additem(menu, "Survivor Attributes \dattribute1");
 	menu_additem(menu, "Join Spectator");
 	
 	menu_setprop(menu, MPROP_NUMBER_COLOR, "\y");
@@ -50,7 +51,11 @@ public HandleMainMenu(id, menu, item)
 		{
 			ShowZombieTypeMenu(id);
 		}
-		case 3: // Join spectator
+		case 3:
+		{
+			ShowHumanAttribMenu(id);
+		}
+		case 4: // Join spectator
 		{
 			ShowSpectatorMenu(id);
 		}

@@ -12,7 +12,7 @@ new const BUY_ITEM_NAME[][] =
 new const BUY_ITEM_DESC[][] = 
 {
 	"", "Human", "(+1500HP)",
-	"", "", "+100 HP", "解毒", "Fire", "Frozen", "Light", "",
+	"", "", "+120 HP", "解毒", "Fire", "Frozen", "Light", "",
 	"", "",
 	"", "", "",
 	"", "", "", "",
@@ -362,7 +362,7 @@ public HandleBuyMenu(id, menu, item)
 				return;
 			}
 			
-			set_pev(id, pev_health, floatmin(health + 100.0, maxHealth));
+			set_pev(id, pev_health, floatmin(health + 120.0, maxHealth));
 			
 			emit_sound(id, CHAN_ITEM, SOUND_MEDKIT[random(sizeof SOUND_MEDKIT)], VOL_NORM, ATTN_NORM, 0, PITCH_NORM);
 		}

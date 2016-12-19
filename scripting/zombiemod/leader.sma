@@ -155,6 +155,17 @@ public Leader::Disconnect(id)
 	g_leader[id] = false;
 }
 
+public Leader::KnifeKnockBack(id, attacker, &Float:power)
+{
+	if (!g_leader[attacker])
+		return;
+	
+	if (isKnifeStabbing(attacker))
+		power = 700.0;
+	else
+		power = 400.0;
+}
+
 stock getLeader(id)
 {
 	return g_leader[id];

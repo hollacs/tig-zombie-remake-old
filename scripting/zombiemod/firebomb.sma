@@ -1,8 +1,8 @@
 const NADE_FIRE = 4863;
 const Float:FIRE_EXPLOSION_RADIUS = 240.0;
-const Float:BURN_DURATION_MAX = 15.0;
-const Float:BURN_DURATION_MIN = 5.0;
-const Float:BURN_DAMAGE = 75.0;
+const Float:BURN_DURATION_MAX = 12.5;
+const Float:BURN_DURATION_MIN = 6.25;
+const Float:BURN_DAMAGE = 60.0;
 
 new const SOUND_FIRE_EXPLODE[] = "zombiemod/fire_explode.wav";
 
@@ -99,17 +99,24 @@ public FireBomb::PlayerPreThink(id)
 		write_byte(200); // brightness
 		message_end();
 		
+		new Float:damage = BURN_DAMAGE;
+		OnPlayerBurn(id, g_burnAttacker[id], damage);
+		
+		new attacker = g_burnAttacker[id];
+		if (is_user_connected(attacker))
+			client_print(attacker, print_chat, "[debug] burn damage = %f", damage);
+		
 		new Float:health;
 		pev(id, pev_health, health);
 		
-		if (health < BURN_DAMAGE)
+		if (health < damage)
 		{
-			ExecuteHamB(Ham_Killed, id, g_burnAttacker[id], 0);
+			ExecuteHamB(Ham_Killed, id, attacker, 0);
 		}
 		else
 		{
-			set_pev(id, pev_health, health - BURN_DAMAGE);
-			sendDamage(id, 0, floatround(BURN_DAMAGE), DMG_BURN, origin);
+			set_pev(id, pev_health, health - damage);
+			sendDamage(id, 0, floatround(damage), DMG_BURN, origin);
 		}
 		
 		updateTime[id] = currentTime + 0.5;
@@ -162,6 +169,11 @@ fireExplode(ent)
 		
 		new Float:radiusRatio = 1.0 - entity_range(ent, player) / FIRE_EXPLOSION_RADIUS;
 		new Float:burnDuration = floatmax(BURN_DURATION_MAX * radiusRatio, BURN_DURATION_MIN);
+		new Float:old = burnDuration;
+		
+		OnFireExplode(ent, player, burnDuration);
+		
+		client_print(0, print_chat, "[debug] burn druration: old=%f, new=%f", old, burnDuration);
 		
 		g_isBurning[player] = true;
 		g_burnAttacker[player] = owner;

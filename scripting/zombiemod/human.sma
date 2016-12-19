@@ -46,6 +46,17 @@ public Human::Humanize(id)
 	cs_set_user_model(id, HUMAN_MODEL[random(sizeof HUMAN_MODEL)]);
 }
 
+public Human::KnifeKnockBack(id, attacker, &Float:power)
+{
+	if (!isKnifeStabbing(attacker))
+		return;
+	
+	if (getNemesis(id) || getGmonster(id) || getCombiner(id) || getMorpheus(id) || getBoomer(id))
+		return;
+	
+	power = 600.0;
+}
+
 public ShowPistolMenu(id)
 {
 	if (getLeader(id))

@@ -30,7 +30,7 @@ public CmdDrop(id)
 		new armor = get_user_armor(id);
 		if (armor < amount)
 		{
-			client_print(id, print_center, "你的AP未滿1000");
+			client_print(id, print_center, "你的 AP 未滿 %d", amount);
 			return PLUGIN_HANDLED;
 		}
 		
@@ -58,6 +58,9 @@ public CmdDrop(id)
 public Armor::TakeDamage(id, inflictor, attacker, Float:damage, damageBits)
 {
 	if (GetHamReturnStatus() == HAM_SUPERCEDE)
+		return HAM_IGNORED;
+	
+	if (!pev_valid(id))
 		return HAM_IGNORED;
 	
 	if (is_user_connected(attacker) && isZombie(attacker) != isZombie(id))
@@ -199,6 +202,11 @@ public RemoveBoost(taskId)
 {
 	new id = taskId - TASK_BOOST;
 	removeBoost(id);
+}
+
+stock getBoost(id)
+{
+	return g_boost[id];
 }
 
 stock boostPlayer(id, Float:duration, Float:speed)

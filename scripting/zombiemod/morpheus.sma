@@ -16,14 +16,6 @@ public Morpheus::Precache()
 
 public Morpheus::Init()
 {
-	register_clcmd("morpheus", "CmdMorpheus");
-}
-
-public CmdMorpheus(id)
-{
-	g_morpheus[id] = true;
-	infectPlayer(id);
-	return PLUGIN_HANDLED;
 }
 
 public Morpheus::NewRound()

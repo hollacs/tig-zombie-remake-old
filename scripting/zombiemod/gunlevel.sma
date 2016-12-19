@@ -57,7 +57,7 @@ public GunLv::ClientDeath(killer, victim, weapon, hit, teamKill)
 	{
 		if ((1 << weapon) & LEVEL_GUNS)
 		{
-			addGunExp(killer, weapon, 15);
+			addGunExp(killer, weapon, 15, false);
 		}
 	}
 }
@@ -87,7 +87,7 @@ public GunLv::Load(id, index)
 	ArrayGetArray(g_dataGunExp, index, g_gunExp[id]);
 }
 
-stock addGunExp(id, weapon, amount)
+stock addGunExp(id, weapon, amount, bool:show=true)
 {
 	g_gunExp[id][weapon] += amount;
 	
@@ -99,8 +99,11 @@ stock addGunExp(id, weapon, amount)
 		client_print(0, print_chat, "%n 的 %s 達到 %d 等級!", id, GUN_NAMES[weapon], g_gunLevel[id][weapon]);
 	}
 
-	set_hudmessage(0, 255, 0, -1.0, 0.8, 0, 0.0, 1.0, 1.0, 1.0, 3);
-	show_hudmessage(id, "+ %d %s EXP", amount, GUN_NAMES[weapon]);
+	if (show)
+	{
+		set_hudmessage(0, 255, 0, -1.0, 0.8, 0, 0.0, 1.0, 1.0, 1.0, 3);
+		show_hudmessage(id, "+ %d %s EXP", amount, GUN_NAMES[weapon]);
+	}
 }
 
 stock getRequiredGunExp(id, weapon)

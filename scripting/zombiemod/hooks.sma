@@ -183,6 +183,7 @@ public OnClientDeath(killer, victim, weapon, hit, teamKill)
 public OnCmdStart(id, uc)
 {
 	Nemesis::CmdStart(id, uc);
+	Level::CmdStart(id, uc);
 }
 
 public OnPlayerPreThink(id)
@@ -208,15 +209,22 @@ public OnSetModel(ent, const model[])
 	IceBomb::SetModel(ent, model);
 	Flare::SetModel(ent, model);
 	InfectBomb::SetModel(ent, model);
+	Level::SetModel(ent, model);
 }
 
 public OnPlayerSpawn(id)
 {
+	if (!pev_valid(id))
+		return;
+	
 	GameRules::PlayerSpawn(id);
 }
 
 public OnPlayerSpawn_P(id)
 {
+	if (!pev_valid(id))
+		return;	
+
 	Nvg::PlayerSpawn_P(id);
 	GameRules::PlayerSpawn_P(id);
 	Boomer::Spawn_P(id);
@@ -224,6 +232,9 @@ public OnPlayerSpawn_P(id)
 
 public OnPlayerResetMaxSpeed_P(id)
 {
+	if (!pev_valid(id))
+		return;
+
 	Supporter::ResetMaxSpeed(id);
 	Leader::ResetMaxSpeed(id);
 	Zombie::ResetMaxSpeed(id);
@@ -234,11 +245,15 @@ public OnPlayerResetMaxSpeed_P(id)
 	Boomer::ResetMaxSpeed(id);
 	IceBomb::ResetMaxSpeed(id);
 	Armor::ResetMaxSpeed(id);
+	Level::ResetMaxSpeed(id);
 	Api::ResetMaxSpeed(id);
 }
 
 public OnPlayerKilled(id, killer, shouldGib)
 {
+	if (!pev_valid(id))
+		return;
+
 	Human::Killed(id);
 	Boomer::Killed(id);
 	GameRules::Killed(id);
@@ -252,6 +267,9 @@ public OnPlayerKilled(id, killer, shouldGib)
 
 public OnPlayerKilled_P(id, killer, shouldGib)
 {
+	if (!pev_valid(id))
+		return;
+	
 	GameRules::Killed_P(id, killer);
 	Player::Killed_P(id, killer);
 	Supporter::Killer_P(id);
@@ -268,17 +286,29 @@ public OnPlayerKilled_P(id, killer, shouldGib)
 
 public OnPlayerJump(id)
 {
+	if (!pev_valid(id))
+		return;
+	
 	IceBomb::PlayerJump(id);
 }
 
 public OnKnifeDeploy_P(ent)
 {
+	if (!pev_valid(ent))
+		return;
+	
 	new id = get_ent_data_entity(ent, "CBasePlayerItem", "m_pPlayer");
-	Zombie::KnifeDeploy_P(id);
+	if (pev_valid(id))
+	{
+		Zombie::KnifeDeploy_P(id);
+	}
 }
 
 public OnWeaponTouch(ent, toucher)
 {
+	if (!pev_valid(ent) || !pev_valid(toucher))
+		return HAM_IGNORED;
+	
 	HOOK_RESULT = HAM_IGNORED;
 	Zombie::TouchWeapon(ent, toucher);
 	return HOOK_RESULT;
@@ -286,6 +316,9 @@ public OnWeaponTouch(ent, toucher)
 
 public OnGrenadeThink(ent)
 {
+	if (!pev_valid(ent))
+		return HAM_IGNORED;
+	
 	HOOK_RESULT = HAM_IGNORED;
 	FireBomb::GrenadeThink(ent);
 	IceBomb::GrenadeThink(ent);
@@ -345,6 +378,7 @@ public OnPlayerHumanize(id)
 	Poison::Humanize(id);
 	Armor::Humanize(id);
 	Buy::Humanize(id);
+	Level::Humanize(id);
 	
 	ShowPistolMenu(id);
 }
@@ -432,4 +466,41 @@ public OnLoad(id, index)
 {
 	Level::Load(id, index);
 	GunLv::Load(id, index);
+}
+
+public OnCanFatalKill(id, attacker)
+{
+	HOOK_RESULT = PLUGIN_CONTINUE;
+	Level::CanFatalKill(id, attacker);
+	return HOOK_RESULT;
+}
+
+public OnCanPoison(id, attacker)
+{
+	HOOK_RESULT = PLUGIN_CONTINUE;
+	Level::CanPoison(id, attacker);
+	return HOOK_RESULT;
+}
+
+public OnKnifeKnockBack(id, attacker, Float:damage, &Float:power)
+{
+	Human::KnifeKnockBack(id, attacker, power);
+	Supporter::KnifeKnockBack(id, attacker, power);
+	Leader::KnifeKnockBack(id, attacker, power);
+	Level::KnifeKnockBack(id, attacker, power);
+}
+
+public OnIceExplode(ent, player, Float:original, &Float:duration)
+{
+	Level::IceExplode(ent, player, original, duration);
+}
+
+public OnFireExplode(ent, player, &Float:burnDuration)
+{
+	Level::FireExplode(ent, player, burnDuration);
+}
+
+public OnPlayerBurn(id, attacker, &Float:damage)
+{
+	Level::PlayerBurn(id, attacker, damage);
 }
