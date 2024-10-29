@@ -3,4 +3,4 @@
 testing
 
 Known issues:
-boomer explosion makes server crash
+server crash when boomer exploses (randomly)
